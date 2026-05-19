@@ -13,24 +13,24 @@ body{font-family:'Courier New',monospace;background:#0a1628;color:#e0e8f0;height
 #login-screen{position:fixed;inset:0;background:#0a1628;display:flex;align-items:center;justify-content:center;z-index:100}
 .login-box{background:#0d1f35;border:1px solid var(--gd);border-radius:10px;padding:32px 36px;width:320px;text-align:center}
 .login-logo{color:var(--gold);font-size:24px;letter-spacing:4px;margin-bottom:6px}
-.login-sub{color:var(--muted);font-size:10px;margin-bottom:24px;letter-spacing:2px}
-.lfield{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e0e8f0;font-family:'Courier New',monospace;font-size:12px;padding:8px 10px;border-radius:4px;margin-bottom:10px}
+.login-sub{color:var(--muted);font-size:14px;margin-bottom:24px;letter-spacing:2px}
+.lfield{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e0e8f0;font-family:'Courier New',monospace;font-size:16px;padding:8px 10px;border-radius:4px;margin-bottom:10px}
 .lfield:focus{outline:none;border-color:var(--gold)}
-.lbtn{width:100%;background:var(--gold);border:none;color:#000;font-family:'Courier New',monospace;font-size:12px;font-weight:bold;padding:9px;border-radius:4px;cursor:pointer;margin-top:6px}
+.lbtn{width:100%;background:var(--gold);border:none;color:#000;font-family:'Courier New',monospace;font-size:16px;font-weight:bold;padding:9px;border-radius:4px;cursor:pointer;margin-top:6px}
 .lbtn:hover{opacity:0.9}
-.lerr{color:#e74c3c;font-size:10px;margin-top:8px;min-height:14px}
+.lerr{color:#e74c3c;font-size:14px;margin-top:8px;min-height:14px}
 
 /* ── TOP BAR ── */
 .tb{background:#0d1f35;border-bottom:1px solid var(--gd);padding:5px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-.logo{color:var(--gold);font-size:12px;letter-spacing:3px;font-weight:bold}
-.nb{background:none;border:1px solid var(--gd);color:var(--muted);padding:3px 9px;border-radius:3px;cursor:pointer;font-size:9px;font-family:'Courier New',monospace;transition:all 0.15s}
+.logo{color:var(--gold);font-size:16px;letter-spacing:3px;font-weight:bold}
+.nb{background:none;border:1px solid var(--gd);color:var(--muted);padding:3px 9px;border-radius:3px;cursor:pointer;font-size:17px;font-family:'Courier New',monospace;transition:all 0.15s}
 .nb:hover,.nb.active{border-color:var(--gold);color:var(--gold)}
-.bdg{border-radius:2px;padding:0 3px;font-size:8px;margin-left:2px}
+.bdg{border-radius:2px;padding:0 3px;font-size:15px;margin-left:2px}
 .bdg-r{background:#e74c3c;color:#fff}
 .bdg-b{background:#3498db;color:#fff}
-.st{margin-left:auto;font-size:9px;color:var(--green)}
-.user-info{font-size:9px;color:var(--muted);display:flex;align-items:center;gap:6px}
-.logout-btn{background:none;border:1px solid rgba(231,76,60,0.3);color:#e74c3c;padding:2px 7px;border-radius:3px;cursor:pointer;font-size:8px;font-family:'Courier New',monospace}
+.st{margin-left:auto;font-size:17px;color:var(--green)}
+.user-info{font-size:17px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.logout-btn{background:none;border:1px solid rgba(231,76,60,0.3);color:#e74c3c;padding:2px 7px;border-radius:3px;cursor:pointer;font-size:15px;font-family:'Courier New',monospace}
 
 /* ── MAIN ── */
 .main{display:flex;flex:1;overflow:hidden}
@@ -39,7 +39,7 @@ body{font-family:'Courier New',monospace;background:#0a1628;color:#e0e8f0;height
 .ov{position:absolute;inset:0;border:3px solid #8B6914;border-radius:50%;background:radial-gradient(ellipse,#1a6b3a 0%,#0f4a2a 100%);box-shadow:0 0 0 7px #5a4010,0 0 0 11px #3a2808}
 .tl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
 .tn{color:rgba(201,168,76,0.3);font-size:18px;letter-spacing:4px}
-.tb2{color:rgba(201,168,76,0.18);font-size:8px;letter-spacing:2px;margin-top:2px}
+.tb2{color:rgba(201,168,76,0.18);font-size:15px;letter-spacing:2px;margin-top:2px}
 
 /* ── SEATS ── */
 .seat{position:absolute;width:88px;transform:translate(-50%,-50%);cursor:pointer}
@@ -47,11 +47,11 @@ body{font-family:'Courier New',monospace;background:#0a1628;color:#e0e8f0;height
 .seat:hover .sb2{border-color:var(--gold);box-shadow:0 0 8px rgba(201,168,76,0.15)}
 .seat.sel .sb2{border-color:var(--gold);background:rgba(201,168,76,0.08)}
 .seat.emp .sb2{opacity:0.4;border-style:dashed}
-.sn{font-size:7px;color:var(--muted);margin-bottom:1px}
-.si{font-size:8px;color:var(--gold);font-weight:bold;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sp2{font-size:7px;color:var(--muted);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sn{font-size:14px;color:var(--muted);margin-bottom:1px}
+.si{font-size:15px;color:var(--gold);font-weight:bold;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp2{font-size:14px;color:var(--muted);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ss{display:flex;gap:3px;margin-top:2px;justify-content:center}
-.sc{font-size:7px;padding:1px 3px;border-radius:2px}
+.sc{font-size:14px;padding:1px 3px;border-radius:2px}
 .sca{background:rgba(231,76,60,0.2);color:#e74c3c}
 .scc{background:rgba(52,152,219,0.2);color:#3498db}
 .stg{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px;justify-content:center}
@@ -63,91 +63,91 @@ body{font-family:'Courier New',monospace;background:#0a1628;color:#e0e8f0;height
 /* ── SIDEBAR ── */
 .sb{width:320px;background:#0d1f35;border-left:1px solid var(--gd);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0}
 .sbh{padding:9px 11px;border-bottom:1px solid var(--gd);display:flex;align-items:center;gap:7px}
-.sbh h3{font-size:10px;color:var(--gold);letter-spacing:1px}
+.sbh h3{font-size:14px;color:var(--gold);letter-spacing:1px}
 .sbc{flex:1;overflow-y:auto;padding:10px 11px}
 .sbf{padding:8px 11px;border-top:1px solid var(--gd);background:#091729}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.15);border-radius:2px}
-.sec{font-size:7px;color:var(--muted);letter-spacing:2px;margin:8px 0 4px;padding-bottom:3px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.sec{font-size:14px;color:var(--muted);letter-spacing:2px;margin:8px 0 4px;padding-bottom:3px;border-bottom:1px solid rgba(255,255,255,0.05)}
 .ph{display:flex;align-items:flex-start;gap:8px;margin-bottom:9px}
-.av{width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.08);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gold);flex-shrink:0}
-.pid{font-size:11px;color:var(--gold);font-weight:bold}
-.pps{font-size:8px;color:var(--muted);margin-top:1px}
+.av{width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.08);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--gold);flex-shrink:0}
+.pid{font-size:15px;color:var(--gold);font-weight:bold}
+.pps{font-size:15px;color:var(--muted);margin-top:1px}
 .ptg{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
 .srow{display:flex;gap:6px;margin-bottom:9px}
 .scd{flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--gd);border-radius:5px;padding:6px;text-align:center}
-.scl{font-size:7px;color:var(--muted);letter-spacing:1px;margin-bottom:2px}
+.scl{font-size:14px;color:var(--muted);letter-spacing:1px;margin-bottom:2px}
 .scv{font-size:18px;font-weight:bold}
 .scv.a{color:#e74c3c}.scv.c{color:#3498db}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:9px}
 .gi{background:rgba(255,255,255,0.03);border:1px solid var(--gd);border-radius:4px;padding:5px 6px}
-.gl{font-size:7px;color:var(--muted);margin-bottom:2px}
-.gv{font-size:10px;color:#e0e8f0}
+.gl{font-size:14px;color:var(--muted);margin-bottom:2px}
+.gv{font-size:14px;color:#e0e8f0}
 .rr{display:flex;align-items:flex-start;gap:5px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
 .rd{width:4px;height:4px;border-radius:50%;background:var(--gold);margin-top:4px;flex-shrink:0}
 .rd.hi{background:#e74c3c}.rd.lo{background:#3498db}.rd.gr{background:#2ecc71}
-.rt{font-size:9px;color:#e0e8f0;line-height:1.45;flex:1}
+.rt{font-size:17px;color:#e0e8f0;line-height:1.45;flex:1}
 .rc{display:flex;gap:1px;flex-shrink:0}
-.rs{font-size:8px;color:rgba(201,168,76,0.25);cursor:pointer}
+.rs{font-size:15px;color:rgba(201,168,76,0.25);cursor:pointer}
 .rs.on{color:var(--gold)}
-.ntx{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--gd);border-radius:4px;color:#e0e8f0;font-family:'Courier New',monospace;font-size:9px;padding:6px;resize:none;min-height:55px}
+.ntx{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--gd);border-radius:4px;color:#e0e8f0;font-family:'Courier New',monospace;font-size:17px;padding:6px;resize:none;min-height:55px}
 .ntx:focus{outline:none;border-color:rgba(201,168,76,0.55)}
 .ntx::placeholder{color:var(--muted)}
 .nf{display:flex;gap:4px;margin-top:4px;align-items:center}
-.nl{font-size:7px;color:var(--muted)}
+.nl{font-size:14px;color:var(--muted)}
 .cs2{display:flex;gap:2px}
-.cst{font-size:11px;color:rgba(201,168,76,0.25);cursor:pointer}
+.cst{font-size:15px;color:rgba(201,168,76,0.25);cursor:pointer}
 .cst.on{color:var(--gold)}
-.sbtn{background:rgba(201,168,76,0.1);border:1px solid var(--gold);color:var(--gold);padding:3px 9px;border-radius:3px;cursor:pointer;font-size:8px;font-family:'Courier New',monospace;margin-left:auto}
+.sbtn{background:rgba(201,168,76,0.1);border:1px solid var(--gold);color:var(--gold);padding:3px 9px;border-radius:3px;cursor:pointer;font-size:15px;font-family:'Courier New',monospace;margin-left:auto}
 .sbtn:hover{background:rgba(201,168,76,0.2)}
-.ain{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:var(--gold);font-family:'Courier New',monospace;font-size:11px;padding:5px 7px;border-radius:3px}
+.ain{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:var(--gold);font-family:'Courier New',monospace;font-size:15px;padding:5px 7px;border-radius:3px}
 .ain:focus{outline:none;border-color:var(--gold)}
 .ar{display:flex;gap:5px;margin-top:5px}
-.ago{background:var(--gold);border:none;color:#000;padding:4px 13px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px}
-.acl{background:#e74c3c;border:none;color:#fff;padding:4px 8px;border-radius:3px;cursor:pointer;font-size:10px}
-.al{font-size:7px;color:var(--muted);margin-bottom:3px}
-.finp{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e0e8f0;font-family:'Courier New',monospace;font-size:10px;padding:4px 7px;border-radius:3px}
+.ago{background:var(--gold);border:none;color:#000;padding:4px 13px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:14px}
+.acl{background:#e74c3c;border:none;color:#fff;padding:4px 8px;border-radius:3px;cursor:pointer;font-size:14px}
+.al{font-size:14px;color:var(--muted);margin-bottom:3px}
+.finp{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e0e8f0;font-family:'Courier New',monospace;font-size:14px;padding:4px 7px;border-radius:3px}
 .finp:focus{outline:none;border-color:var(--gold)}
 
 /* ── REVIEW / DB VIEWS ── */
 .rv,.dv{flex:1;background:#091729;overflow-y:auto;padding:12px;display:none}
 .rvc{background:#0d1f35;border:1px solid var(--gd);border-radius:7px;padding:10px 12px;margin-bottom:8px}
 .rvh{display:flex;align-items:center;gap:7px;margin-bottom:6px}
-.rvi{font-size:10px;color:var(--gold);font-weight:bold}
-.rvt{font-size:8px;color:var(--muted)}
-.rvby{font-size:8px;color:#3498db;margin-left:auto}
-.rvn{font-size:9px;color:#e0e8f0;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:6px;margin-bottom:6px;line-height:1.6}
-.rva{font-size:9px;color:#2ecc71;background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.2);border-radius:4px;padding:6px;margin-bottom:6px;line-height:1.6}
-.rvac{font-size:7px;color:#2ecc71;letter-spacing:1px;margin-bottom:3px}
+.rvi{font-size:14px;color:var(--gold);font-weight:bold}
+.rvt{font-size:15px;color:var(--muted)}
+.rvby{font-size:15px;color:#3498db;margin-left:auto}
+.rvn{font-size:17px;color:#e0e8f0;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:6px;margin-bottom:6px;line-height:1.6}
+.rva{font-size:17px;color:#2ecc71;background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.2);border-radius:4px;padding:6px;margin-bottom:6px;line-height:1.6}
+.rvac{font-size:14px;color:#2ecc71;letter-spacing:1px;margin-bottom:3px}
 .rvbts{display:flex;gap:4px}
-.rvb{padding:3px 9px;border-radius:3px;cursor:pointer;font-size:8px;font-family:'Courier New',monospace;border:1px solid}
+.rvb{padding:3px 9px;border-radius:3px;cursor:pointer;font-size:15px;font-family:'Courier New',monospace;border:1px solid}
 .rok{border-color:#2ecc71;color:#2ecc71;background:rgba(46,204,113,0.08)}
 .red2{border-color:#e74c3c;color:#e74c3c;background:rgba(231,76,60,0.08)}
 .dsi{display:flex;gap:6px;margin-bottom:11px}
-.din{flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e0e8f0;font-family:'Courier New',monospace;font-size:11px;padding:6px 9px;border-radius:4px}
+.din{flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e0e8f0;font-family:'Courier New',monospace;font-size:15px;padding:6px 9px;border-radius:4px}
 .din:focus{outline:none;border-color:var(--gold)}
 .dr{display:flex;align-items:center;gap:8px;padding:6px 9px;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;border-radius:4px}
 .dr:hover{background:rgba(255,255,255,0.03)}
-.di{font-size:10px;color:var(--gold);font-weight:bold;min-width:85px}
-.dps{font-size:9px;color:var(--muted);min-width:65px}
-.dsrc{font-size:7px;padding:1px 4px;border-radius:2px;border:1px solid}
+.di{font-size:14px;color:var(--gold);font-weight:bold;min-width:85px}
+.dps{font-size:17px;color:var(--muted);min-width:65px}
+.dsrc{font-size:14px;padding:1px 4px;border-radius:2px;border:1px solid}
 .dsrc.KK{color:#c9a84c;border-color:rgba(201,168,76,0.3)}
 .dsrc.AK{color:#3498db;border-color:rgba(52,152,219,0.3)}
-.dnc{margin-left:auto;font-size:8px;color:var(--muted)}
+.dnc{margin-left:auto;font-size:15px;color:var(--muted)}
 .bb{background:#091729;border-top:1px solid var(--gd);padding:4px 12px;display:flex;gap:12px;align-items:center;flex-shrink:0}
-.leg{display:flex;align-items:center;gap:3px;font-size:7px;color:var(--muted)}
+.leg{display:flex;align-items:center;gap:3px;font-size:14px;color:var(--muted)}
 .ld{width:5px;height:5px;border-radius:50%}
-.toast{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);background:#2ecc71;color:#000;padding:4px 14px;border-radius:4px;font-size:9px;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap}
-.sf{background:none;border:1px solid var(--gd);color:var(--muted);padding:2px 7px;border-radius:3px;cursor:pointer;font-size:8px;font-family:'Courier New',monospace}
+.toast{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);background:#2ecc71;color:#000;padding:4px 14px;border-radius:4px;font-size:17px;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap}
+.sf{background:none;border:1px solid var(--gd);color:var(--muted);padding:2px 7px;border-radius:3px;cursor:pointer;font-size:15px;font-family:'Courier New',monospace}
 .sf.on{border-color:var(--gold);color:var(--gold)}
-.loading{color:var(--muted);font-size:10px;text-align:center;padding:30px 0}
+.loading{color:var(--muted);font-size:14px;text-align:center;padding:30px 0}
 .spinner{display:inline-block;width:12px;height:12px;border:2px solid var(--gd);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── SETTINGS VIEW ── */
 .sv{flex:1;background:#091729;overflow-y:auto;padding:20px;display:none}
 .set-card{background:#0d1f35;border:1px solid var(--gd);border-radius:8px;padding:16px;margin-bottom:12px;max-width:400px}
-.set-title{font-size:11px;color:var(--gold);margin-bottom:12px;letter-spacing:1px}
+.set-title{font-size:15px;color:var(--gold);margin-bottom:12px;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -194,7 +194,7 @@ body{font-family:'Courier New',monospace;background:#0a1628;color:#e0e8f0;height
       <div class="leg"><div class="ld" style="background:#3498db"></div>Reg</div>
       <div class="leg"><div class="ld" style="background:#95a5a6"></div>Nit</div>
       <div class="leg"><div class="ld" style="background:#c9a84c"></div>Inconnu</div>
-      <button class="nb" onclick="refreshDB()" style="margin-left:auto;font-size:7px">↺ SYNC</button>
+      <button class="nb" onclick="refreshDB()" style="margin-left:auto;font-size:14px">↺ SYNC</button>
     </div>
   </div>
 
@@ -218,11 +218,11 @@ body{font-family:'Courier New',monospace;background:#0a1628;color:#e0e8f0;height
       <input class="finp" type="password" id="cp-cur" placeholder="Mot de passe actuel" style="margin-bottom:8px">
       <input class="finp" type="password" id="cp-new" placeholder="Nouveau mot de passe" style="margin-bottom:8px">
       <button class="sbtn" onclick="changePassword()" style="margin:0">Changer →</button>
-      <div id="cp-msg" style="font-size:9px;margin-top:6px;color:var(--green)"></div>
+      <div id="cp-msg" style="font-size:17px;margin-top:6px;color:var(--green)"></div>
     </div>
     <div class="set-card">
       <div class="set-title">COMPTE AMI (iaco)</div>
-      <div style="font-size:9px;color:var(--muted);line-height:1.6">
+      <div style="font-size:17px;color:var(--muted);line-height:1.6">
         Ton ami peut se connecter avec :<br>
         Pseudo : <span style="color:var(--gold)">iaco</span><br>
         Mot de passe initial : <span style="color:var(--gold)">changeme</span><br>
@@ -231,7 +231,7 @@ body{font-family:'Courier New',monospace;background:#0a1628;color:#e0e8f0;height
     </div>
     <div class="set-card">
       <div class="set-title">INFOS</div>
-      <div style="font-size:9px;color:var(--muted);line-height:1.8" id="db-stats">Chargement...</div>
+      <div style="font-size:17px;color:var(--muted);line-height:1.8" id="db-stats">Chargement...</div>
     </div>
   </div>
 
@@ -383,7 +383,7 @@ function renderTable() {
       selSeat = i; renderTable();
       if (pid) openPlayer(pid);
       else {
-        document.getElementById('sbc').innerHTML = `<div class="loading">Siège ${i+1} vide<br><span style="font-size:8px">Entre l'ID ci-dessous</span></div>`;
+        document.getElementById('sbc').innerHTML = `<div class="loading">Siège ${i+1} vide<br><span style="font-size:15px">Entre l'ID ci-dessous</span></div>`;
         document.getElementById('ain').focus();
       }
     };
@@ -413,13 +413,13 @@ async function setConf(id, idx, type, v) {
 function openPlayer(id) {
   const p = DB[id];
   if (!p) {
-    document.getElementById('sbc').innerHTML = `<div class="loading">Joueur ${id} inconnu<br><span style="font-size:8px">Il sera créé lors de la 1ère note</span></div>`;
+    document.getElementById('sbc').innerHTML = `<div class="loading">Joueur ${id} inconnu<br><span style="font-size:15px">Il sera créé lors de la 1ère note</span></div>`;
     return;
   }
   document.getElementById('sbt').textContent = id;
   const reads = p.r || [];
   const notes = p.n || [];
-  const upd = p.updated_by ? `<span style="color:var(--muted);font-size:7px">modifié par ${p.updated_by}</span>` : '';
+  const upd = p.updated_by ? `<span style="color:var(--muted);font-size:14px">modifié par ${p.updated_by}</span>` : '';
 
   document.getElementById('sbc').innerHTML = `
     <div class="ph">
@@ -452,7 +452,7 @@ function openPlayer(id) {
       return `<div class="rr"><div class="rd ${conf >= 4 ? 'hi' : conf >= 2 ? '' : 'lo'}"></div><div class="rt">${txt}</div><div class="rc">${starsHTML(conf, id, i, 'read')}</div></div>`;
     }).join('')}
     ${notes.length ? `<div class="sec">NOTES BRUTES (${notes.length})</div>` +
-      notes.map(n => `<div class="rr"><div class="rd gr"></div><div class="rt" style="color:#2ecc71">${n.t}<span style="color:var(--muted);font-size:7px;margin-left:4px">— ${n.by || ''} ${n.ts || ''}</span></div></div>`).join('') : ''}
+      notes.map(n => `<div class="rr"><div class="rd gr"></div><div class="rt" style="color:#2ecc71">${n.t}<span style="color:var(--muted);font-size:14px;margin-left:4px">— ${n.by || ''} ${n.ts || ''}</span></div></div>`).join('') : ''}
     <div class="sec">NOTE IN-GAME</div>
     <textarea class="ntx" id="ntx-${id}" placeholder="ex: OR 3,9 UTG AKo / DB ½ TPTK sur A84..."></textarea>
     <div class="nf">
@@ -463,17 +463,17 @@ function openPlayer(id) {
     <div class="sec" style="margin-top:8px">MODIFIER</div>
     <div class="g2" style="margin-top:4px">
       <div class="gi"><div class="gl">A (aggr)</div>
-        <input style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e74c3c;font-size:11px;padding:3px;border-radius:3px;font-family:'Courier New',monospace"
+        <input style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e74c3c;font-size:15px;padding:3px;border-radius:3px;font-family:'Courier New',monospace"
           type="number" min="0" max="5" value="${p.a}" onchange="updScore('${id}','a',this.value)">
       </div>
       <div class="gi"><div class="gl">C (call)</div>
-        <input style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#3498db;font-size:11px;padding:3px;border-radius:3px;font-family:'Courier New',monospace"
+        <input style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#3498db;font-size:15px;padding:3px;border-radius:3px;font-family:'Courier New',monospace"
           type="number" min="0" max="5" value="${p.c}" onchange="updScore('${id}','c',this.value)">
       </div>
     </div>
     <div class="gi" style="margin-top:4px">
       <div class="gl">PSEUDO</div>
-      <input style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:var(--gold);font-size:11px;padding:3px;border-radius:3px;font-family:'Courier New',monospace"
+      <input style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:var(--gold);font-size:15px;padding:3px;border-radius:3px;font-family:'Courier New',monospace"
         value="${p.p || ''}" onchange="updPseudo('${id}',this.value)" placeholder="pseudo...">
     </div>
   `;
@@ -559,7 +559,7 @@ async function renderReview() {
     el.innerHTML = `<div class="loading">Aucune note en attente de review</div>`;
     return;
   }
-  el.innerHTML = `<div style="font-size:9px;color:var(--gold);letter-spacing:2px;margin-bottom:12px">REVIEW POST-SESSION — ${reviews.length} note(s)</div>` +
+  el.innerHTML = `<div style="font-size:17px;color:var(--gold);letter-spacing:2px;margin-bottom:12px">REVIEW POST-SESSION — ${reviews.length} note(s)</div>` +
     reviews.map(rv => `
       <div class="rvc">
         <div class="rvh">
