@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>♠ Poker HUD</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Courier New',monospace;background:#0a1628;color:#e0e8f0;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+:root{--gold:#c9a84c;--gd:rgba(201,168,76,0.25);--card:#0d1f35;--bg:#091729;--muted:#6a8a9f;--red:#e74c3c;--blue:#3498db;--green:#2ecc71}
+
+/* ── LOGIN ── */
+#login-screen{position:fixed;inset:0;background:#0a1628;display:flex;align-items:center;justify-content:center;z-index:100}
+.login-box{background:#0d1f35;border:1px solid var(--gd);border-radius:10px;padding:32px 36px;width:320px;text-align:center}
+.login-logo{color:var(--gold);font-size:24px;letter-spacing:4px;margin-bottom:6px}
+.login-sub{color:var(--muted);font-size:10px;margin-bottom:24px;letter-spacing:2px}
+.lfield{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e0e8f0;font-family:'Courier New',monospace;font-size:12px;padding:8px 10px;border-radius:4px;margin-bottom:10px}
+.lfield:focus{outline:none;border-color:var(--gold)}
+.lbtn{width:100%;background:var(--gold);border:none;color:#000;font-family:'Courier New',monospace;font-size:12px;font-weight:bold;padding:9px;border-radius:4px;cursor:pointer;margin-top:6px}
+.lbtn:hover{opacity:0.9}
+.lerr{color:#e74c3c;font-size:10px;margin-top:8px;min-height:14px}
+
+/* ── TOP BAR ── */
+.tb{background:#0d1f35;border-bottom:1px solid var(--gd);padding:5px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo{color:var(--gold);font-size:12px;letter-spacing:3px;font-weight:bold}
+.nb{background:none;border:1px solid var(--gd);color:var(--muted);padding:3px 9px;border-radius:3px;cursor:pointer;font-size:9px;font-family:'Courier New',monospace;transition:all 0.15s}
+.nb:hover,.nb.active{border-color:var(--gold);color:var(--gold)}
+.bdg{border-radius:2px;padding:0 3px;font-size:8px;margin-left:2px}
+.bdg-r{background:#e74c3c;color:#fff}
+.bdg-b{background:#3498db;color:#fff}
+.st{margin-left:auto;font-size:9px;color:var(--green)}
+.user-info{font-size:9px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.logout-btn{background:none;border:1px solid rgba(231,76,60,0.3);color:#e74c3c;padding:2px 7px;border-radius:3px;cursor:pointer;font-size:8px;font-family:'Courier New',monospace}
+
+/* ── MAIN ── */
+.main{display:flex;flex:1;overflow:hidden}
+.tw{flex:1;background:radial-gradient(ellipse at center,#0f5a30 0%,#0a3520 60%,#061810 100%);display:flex;align-items:center;justify-content:center;position:relative}
+.pt{position:relative;width:640px;height:320px}
+.ov{position:absolute;inset:0;border:3px solid #8B6914;border-radius:50%;background:radial-gradient(ellipse,#1a6b3a 0%,#0f4a2a 100%);box-shadow:0 0 0 7px #5a4010,0 0 0 11px #3a2808}
+.tl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.tn{color:rgba(201,168,76,0.3);font-size:18px;letter-spacing:4px}
+.tb2{color:rgba(201,168,76,0.18);font-size:8px;letter-spacing:2px;margin-top:2px}
+
+/* ── SEATS ── */
+.seat{position:absolute;width:88px;transform:translate(-50%,-50%);cursor:pointer}
+.sb2{background:#0d1f35;border:1px solid rgba(201,168,76,0.3);border-radius:7px;padding:5px 6px;transition:all 0.15s;text-align:center;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.seat:hover .sb2{border-color:var(--gold);box-shadow:0 0 8px rgba(201,168,76,0.15)}
+.seat.sel .sb2{border-color:var(--gold);background:rgba(201,168,76,0.08)}
+.seat.emp .sb2{opacity:0.4;border-style:dashed}
+.sn{font-size:7px;color:var(--muted);margin-bottom:1px}
+.si{font-size:8px;color:var(--gold);font-weight:bold;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp2{font-size:7px;color:var(--muted);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ss{display:flex;gap:3px;margin-top:2px;justify-content:center}
+.sc{font-size:7px;padding:1px 3px;border-radius:2px}
+.sca{background:rgba(231,76,60,0.2);color:#e74c3c}
+.scc{background:rgba(52,152,219,0.2);color:#3498db}
+.stg{display:flex;flex-wrap:wrap;gap:2px;margin-top:2px;justify-content:center}
+.tg{font-size:6px;padding:1px 3px;border-radius:2px;background:rgba(201,168,76,0.08);color:var(--gold);border:1px solid rgba(201,168,76,0.15)}
+.tg.fish,.tg.whale{background:rgba(231,76,60,0.1);color:#e74c3c;border-color:rgba(231,76,60,0.25)}
+.tg.nit{background:rgba(149,165,166,0.1);color:#95a5a6;border-color:rgba(149,165,166,0.2)}
+.sp3{color:rgba(255,255,255,0.18);font-size:15px}
+
+/* ── SIDEBAR ── */
+.sb{width:320px;background:#0d1f35;border-left:1px solid var(--gd);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0}
+.sbh{padding:9px 11px;border-bottom:1px solid var(--gd);display:flex;align-items:center;gap:7px}
+.sbh h3{font-size:10px;color:var(--gold);letter-spacing:1px}
+.sbc{flex:1;overflow-y:auto;padding:10px 11px}
+.sbf{padding:8px 11px;border-top:1px solid var(--gd);background:#091729}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.15);border-radius:2px}
+.sec{font-size:7px;color:var(--muted);letter-spacing:2px;margin:8px 0 4px;padding-bottom:3px;border-bottom:1px solid rgba(255,255,255,0.05)}
+.ph{display:flex;align-items:flex-start;gap:8px;margin-bottom:9px}
+.av{width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.08);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--gold);flex-shrink:0}
+.pid{font-size:11px;color:var(--gold);font-weight:bold}
+.pps{font-size:8px;color:var(--muted);margin-top:1px}
+.ptg{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
+.srow{display:flex;gap:6px;margin-bottom:9px}
+.scd{flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--gd);border-radius:5px;padding:6px;text-align:center}
+.scl{font-size:7px;color:var(--muted);letter-spacing:1px;margin-bottom:2px}
+.scv{font-size:18px;font-weight:bold}
+.scv.a{color:#e74c3c}.scv.c{color:#3498db}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:9px}
+.gi{background:rgba(255,255,255,0.03);border:1px solid var(--gd);border-radius:4px;padding:5px 6px}
+.gl{font-size:7px;color:var(--muted);margin-bottom:2px}
+.gv{font-size:10px;color:#e0e8f0}
+.rr{display:flex;align-items:flex-start;gap:5px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.rd{width:4px;height:4px;border-radius:50%;background:var(--gold);margin-top:4px;flex-shrink:0}
+.rd.hi{background:#e74c3c}.rd.lo{background:#3498db}.rd.gr{background:#2ecc71}
+.rt{font-size:9px;color:#e0e8f0;line-height:1.45;flex:1}
+.rc{display:flex;gap:1px;flex-shrink:0}
+.rs{font-size:8px;color:rgba(201,168,76,0.25);cursor:pointer}
+.rs.on{color:var(--gold)}
+.ntx{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--gd);border-radius:4px;color:#e0e8f0;font-family:'Courier New',monospace;font-size:9px;padding:6px;resize:none;min-height:55px}
+.ntx:focus{outline:none;border-color:rgba(201,168,76,0.55)}
+.ntx::placeholder{color:var(--muted)}
+.nf{display:flex;gap:4px;margin-top:4px;align-items:center}
+.nl{font-size:7px;color:var(--muted)}
+.cs2{display:flex;gap:2px}
+.cst{font-size:11px;color:rgba(201,168,76,0.25);cursor:pointer}
+.cst.on{color:var(--gold)}
+.sbtn{background:rgba(201,168,76,0.1);border:1px solid var(--gold);color:var(--gold);padding:3px 9px;border-radius:3px;cursor:pointer;font-size:8px;font-family:'Courier New',monospace;margin-left:auto}
+.sbtn:hover{background:rgba(201,168,76,0.2)}
+.ain{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:var(--gold);font-family:'Courier New',monospace;font-size:11px;padding:5px 7px;border-radius:3px}
+.ain:focus{outline:none;border-color:var(--gold)}
+.ar{display:flex;gap:5px;margin-top:5px}
+.ago{background:var(--gold);border:none;color:#000;padding:4px 13px;border-radius:3px;cursor:pointer;font-weight:bold;font-size:10px}
+.acl{background:#e74c3c;border:none;color:#fff;padding:4px 8px;border-radius:3px;cursor:pointer;font-size:10px}
+.al{font-size:7px;color:var(--muted);margin-bottom:3px}
+.finp{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e0e8f0;font-family:'Courier New',monospace;font-size:10px;padding:4px 7px;border-radius:3px}
+.finp:focus{outline:none;border-color:var(--gold)}
+
+/* ── REVIEW / DB VIEWS ── */
+.rv,.dv{flex:1;background:#091729;overflow-y:auto;padding:12px;display:none}
+.rvc{background:#0d1f35;border:1px solid var(--gd);border-radius:7px;padding:10px 12px;margin-bottom:8px}
+.rvh{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.rvi{font-size:10px;color:var(--gold);font-weight:bold}
+.rvt{font-size:8px;color:var(--muted)}
+.rvby{font-size:8px;color:#3498db;margin-left:auto}
+.rvn{font-size:9px;color:#e0e8f0;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:6px;margin-bottom:6px;line-height:1.6}
+.rva{font-size:9px;color:#2ecc71;background:rgba(46,204,113,0.05);border:1px solid rgba(46,204,113,0.2);border-radius:4px;padding:6px;margin-bottom:6px;line-height:1.6}
+.rvac{font-size:7px;color:#2ecc71;letter-spacing:1px;margin-bottom:3px}
+.rvbts{display:flex;gap:4px}
+.rvb{padding:3px 9px;border-radius:3px;cursor:pointer;font-size:8px;font-family:'Courier New',monospace;border:1px solid}
+.rok{border-color:#2ecc71;color:#2ecc71;background:rgba(46,204,113,0.08)}
+.red2{border-color:#e74c3c;color:#e74c3c;background:rgba(231,76,60,0.08)}
+.dsi{display:flex;gap:6px;margin-bottom:11px}
+.din{flex:1;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e0e8f0;font-family:'Courier New',monospace;font-size:11px;padding:6px 9px;border-radius:4px}
+.din:focus{outline:none;border-color:var(--gold)}
+.dr{display:flex;align-items:center;gap:8px;padding:6px 9px;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;border-radius:4px}
+.dr:hover{background:rgba(255,255,255,0.03)}
+.di{font-size:10px;color:var(--gold);font-weight:bold;min-width:85px}
+.dps{font-size:9px;color:var(--muted);min-width:65px}
+.dsrc{font-size:7px;padding:1px 4px;border-radius:2px;border:1px solid}
+.dsrc.KK{color:#c9a84c;border-color:rgba(201,168,76,0.3)}
+.dsrc.AK{color:#3498db;border-color:rgba(52,152,219,0.3)}
+.dnc{margin-left:auto;font-size:8px;color:var(--muted)}
+.bb{background:#091729;border-top:1px solid var(--gd);padding:4px 12px;display:flex;gap:12px;align-items:center;flex-shrink:0}
+.leg{display:flex;align-items:center;gap:3px;font-size:7px;color:var(--muted)}
+.ld{width:5px;height:5px;border-radius:50%}
+.toast{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);background:#2ecc71;color:#000;padding:4px 14px;border-radius:4px;font-size:9px;opacity:0;transition:opacity 0.3s;pointer-events:none;white-space:nowrap}
+.sf{background:none;border:1px solid var(--gd);color:var(--muted);padding:2px 7px;border-radius:3px;cursor:pointer;font-size:8px;font-family:'Courier New',monospace}
+.sf.on{border-color:var(--gold);color:var(--gold)}
+.loading{color:var(--muted);font-size:10px;text-align:center;padding:30px 0}
+.spinner{display:inline-block;width:12px;height:12px;border:2px solid var(--gd);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── SETTINGS VIEW ── */
+.sv{flex:1;background:#091729;overflow-y:auto;padding:20px;display:none}
+.set-card{background:#0d1f35;border:1px solid var(--gd);border-radius:8px;padding:16px;margin-bottom:12px;max-width:400px}
+.set-title{font-size:11px;color:var(--gold);margin-bottom:12px;letter-spacing:1px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">♠ POKER HUD</div>
+    <div class="login-sub">KK POKER — READS DATABASE</div>
+    <input class="lfield" type="text" id="l-user" placeholder="Pseudo" onkeydown="if(event.key==='Enter')doLogin()">
+    <input class="lfield" type="password" id="l-pass" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="lbtn" onclick="doLogin()">CONNEXION</button>
+    <div class="lerr" id="l-err"></div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" style="display:none;flex-direction:column;height:100vh">
+<div class="tb">
+  <div class="logo">♠ POKER HUD</div>
+  <button class="nb active" id="nb0" onclick="showV('table',0)">TABLE</button>
+  <button class="nb" id="nb1" onclick="showV('review',1)">REVIEW <span class="bdg bdg-r" id="rbc">0</span></button>
+  <button class="nb" id="nb2" onclick="showV('db',2)">BASE <span class="bdg bdg-b" id="dbc">0</span></button>
+  <button class="nb" id="nb3" onclick="showV('settings',3)">⚙</button>
+  <div class="user-info">
+    <span id="username-display">—</span>
+    <button class="logout-btn" onclick="doLogout()">QUITTER</button>
+  </div>
+  <div class="st" id="sts">● connexion...</div>
+</div>
+
+<div class="main" id="main-area">
+  <!-- TABLE VIEW -->
+  <div id="vt" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+    <div class="tw" style="flex:1;position:relative">
+      <div class="pt" id="ptbl">
+        <div class="ov"></div>
+        <div class="tl"><div class="tn">KK POKER</div><div class="tb2">0.1 / 0.2 / 0.4</div></div>
+      </div>
+      <div class="toast" id="tst">Sauvegardé ✓</div>
+    </div>
+    <div class="bb">
+      <div class="leg"><div class="ld" style="background:#e74c3c"></div>Fish/Whale</div>
+      <div class="leg"><div class="ld" style="background:#3498db"></div>Reg</div>
+      <div class="leg"><div class="ld" style="background:#95a5a6"></div>Nit</div>
+      <div class="leg"><div class="ld" style="background:#c9a84c"></div>Inconnu</div>
+      <button class="nb" onclick="refreshDB()" style="margin-left:auto;font-size:7px">↺ SYNC</button>
+    </div>
+  </div>
+
+  <!-- REVIEW VIEW -->
+  <div class="rv" id="vr"></div>
+
+  <!-- DB VIEW -->
+  <div class="dv" id="vd">
+    <div class="dsi">
+      <input class="din" id="dq" placeholder="ID ou pseudo..." oninput="renderDB(this.value)">
+      <button class="sf on" id="sf-kk" onclick="toggleSrc('KK')">KK</button>
+      <button class="sf on" id="sf-ak" onclick="toggleSrc('AK')">AK</button>
+    </div>
+    <div id="dl"></div>
+  </div>
+
+  <!-- SETTINGS VIEW -->
+  <div class="sv" id="vs">
+    <div class="set-card">
+      <div class="set-title">CHANGER MON MOT DE PASSE</div>
+      <input class="finp" type="password" id="cp-cur" placeholder="Mot de passe actuel" style="margin-bottom:8px">
+      <input class="finp" type="password" id="cp-new" placeholder="Nouveau mot de passe" style="margin-bottom:8px">
+      <button class="sbtn" onclick="changePassword()" style="margin:0">Changer →</button>
+      <div id="cp-msg" style="font-size:9px;margin-top:6px;color:var(--green)"></div>
+    </div>
+    <div class="set-card">
+      <div class="set-title">COMPTE AMI (iaco)</div>
+      <div style="font-size:9px;color:var(--muted);line-height:1.6">
+        Ton ami peut se connecter avec :<br>
+        Pseudo : <span style="color:var(--gold)">iaco</span><br>
+        Mot de passe initial : <span style="color:var(--gold)">changeme</span><br>
+        <span style="color:#e74c3c">Il doit le changer dès la première connexion.</span>
+      </div>
+    </div>
+    <div class="set-card">
+      <div class="set-title">INFOS</div>
+      <div style="font-size:9px;color:var(--muted);line-height:1.8" id="db-stats">Chargement...</div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sb" id="sdb">
+    <div class="sbh">
+      <h3 id="sbt">FICHE JOUEUR</h3>
+      <button style="margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px" onclick="closeSB()">✕</button>
+    </div>
+    <div class="sbc" id="sbc"><div class="loading">Clique sur un siège</div></div>
+    <div class="sbf">
+      <div class="al">ASSIGNER CE SIÈGE</div>
+      <input class="ain" id="ain" placeholder="ID joueur..." onkeydown="if(event.key==='Enter')doAssign()">
+      <div class="ar">
+        <button class="ago" onclick="doAssign()">OK</button>
+        <button class="acl" onclick="clearSeat()">VIDER</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+// ── State ────────────────────────────────────────────────────────────────────
+let TOKEN = localStorage.getItem('phud_token') || '';
+let USERNAME = localStorage.getItem('phud_user') || '';
+let DB = {};
+let seats = JSON.parse(localStorage.getItem('phud_seats') || '[null,null,null,null,null,null]');
+let selSeat = null;
+let noteConf = {};
+let reviews = [];
+let srcFilter = { KK: true, AK: true };
+
+const SPOS = [
+  {top:"7%",left:"33%"},{top:"7%",left:"58%"},
+  {top:"34%",left:"87%"},{top:"73%",left:"81%"},
+  {top:"73%",left:"19%"},{top:"34%",left:"13%"}
+];
+
+// ── API helpers ──────────────────────────────────────────────────────────────
+async function api(method, path, body) {
+  const opts = {
+    method,
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN }
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch('/api' + path, opts);
+  if (r.status === 401) { doLogout(); return null; }
+  return r.json();
+}
+
+// ── Auth ─────────────────────────────────────────────────────────────────────
+async function doLogin() {
+  const user = document.getElementById('l-user').value.trim();
+  const pass = document.getElementById('l-pass').value;
+  document.getElementById('l-err').textContent = '';
+  try {
+    const r = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: user, password: pass })
+    });
+    const data = await r.json();
+    if (!r.ok) { document.getElementById('l-err').textContent = data.error; return; }
+    TOKEN = data.token;
+    USERNAME = data.username;
+    localStorage.setItem('phud_token', TOKEN);
+    localStorage.setItem('phud_user', USERNAME);
+    startApp();
+  } catch (e) {
+    document.getElementById('l-err').textContent = 'Erreur de connexion';
+  }
+}
+
+function doLogout() {
+  TOKEN = ''; USERNAME = '';
+  localStorage.removeItem('phud_token');
+  localStorage.removeItem('phud_user');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+async function changePassword() {
+  const cur = document.getElementById('cp-cur').value;
+  const nw = document.getElementById('cp-new').value;
+  const msg = document.getElementById('cp-msg');
+  const r = await api('POST', '/change-password', { currentPassword: cur, newPassword: nw });
+  if (r && r.ok) { msg.textContent = 'Mot de passe changé ✓'; msg.style.color = 'var(--green)'; }
+  else { msg.textContent = r ? r.error : 'Erreur'; msg.style.color = '#e74c3c'; }
+}
+
+// ── App startup ───────────────────────────────────────────────────────────────
+async function startApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('username-display').textContent = USERNAME;
+  await refreshDB();
+  await loadReviews();
+}
+
+async function refreshDB() {
+  document.getElementById('sts').textContent = '● chargement...';
+  const data = await api('GET', '/players');
+  if (!data) return;
+  DB = data;
+  document.getElementById('dbc').textContent = Object.keys(DB).length;
+  document.getElementById('sts').textContent = '● ' + Object.keys(DB).length + ' joueurs';
+  renderTable();
+  updateStats();
+}
+
+async function loadReviews() {
+  const data = await api('GET', '/reviews');
+  if (data) { reviews = data; updateRevBadge(); }
+}
+
+function updateRevBadge() { document.getElementById('rbc').textContent = reviews.length; }
+
+function updateStats() {
+  const total = Object.keys(DB).length;
+  const kk = Object.values(DB).filter(p => p.src === 'KK').length;
+  const ak = Object.values(DB).filter(p => p.src === 'AK').length;
+  const rated = Object.values(DB).filter(p => p.a > 0 || p.c > 0).length;
+  document.getElementById('db-stats').innerHTML =
+    `Total joueurs : <span style="color:var(--gold)">${total}</span><br>` +
+    `Source KK : <span style="color:var(--gold)">${kk}</span> | Source AK : <span style="color:#3498db">${ak}</span><br>` +
+    `Profils notés (AxCx) : <span style="color:var(--gold)">${rated}</span><br>` +
+    `Connecté en tant que : <span style="color:var(--gold)">${USERNAME}</span>`;
+}
+
+// ── Table rendering ──────────────────────────────────────────────────────────
+function renderTable() {
+  document.querySelectorAll('.seat').forEach(s => s.remove());
+  SPOS.forEach((pos, i) => {
+    const d = document.createElement('div');
+    const pid = seats[i]; const p = pid ? DB[pid] : null;
+    d.className = 'seat' + (pid ? '' : ' emp') + (selSeat === i ? ' sel' : '');
+    d.style.cssText = `position:absolute;top:${pos.top};left:${pos.left};`;
+    const tags = p ? (p.t || []).slice(0, 2) : [];
+    d.innerHTML = `<div class="sb2">
+      <div class="sn">S${i + 1}</div>
+      ${p ? `<div class="si">${pid}</div>
+        ${p.p ? `<div class="sp2">${p.p}</div>` : ''}
+        <div class="ss">${p.a ? `<span class="sc sca">A${p.a}</span>` : ''}${p.c ? `<span class="sc scc">C${p.c}</span>` : ''}</div>
+        <div class="stg">${tags.map(t => `<span class="tg ${t.toLowerCase()}">${t}</span>`).join('')}</div>
+      ` : `<div class="sp3">+</div>`}
+    </div>`;
+    d.onclick = () => {
+      selSeat = i; renderTable();
+      if (pid) openPlayer(pid);
+      else {
+        document.getElementById('sbc').innerHTML = `<div class="loading">Siège ${i+1} vide<br><span style="font-size:8px">Entre l'ID ci-dessous</span></div>`;
+        document.getElementById('ain').focus();
+      }
+    };
+    document.getElementById('ptbl').appendChild(d);
+  });
+}
+
+// ── Player card ───────────────────────────────────────────────────────────────
+function starsHTML(conf, id, idx, type) {
+  let s = '';
+  for (let i = 1; i <= 5; i++) {
+    s += `<span class="rs ${i <= conf ? 'on' : ''}" onclick="setConf('${id}',${idx},'${type}',${i})">★</span>`;
+  }
+  return s;
+}
+
+async function setConf(id, idx, type, v) {
+  if (!DB[id]) return;
+  if (type === 'read' && DB[id].r[idx]) {
+    if (typeof DB[id].r[idx] === 'string') DB[id].r[idx] = { t: DB[id].r[idx], conf: v };
+    else DB[id].r[idx].conf = v;
+  }
+  await api('PUT', '/players/' + id, DB[id]);
+  openPlayer(id);
+}
+
+function openPlayer(id) {
+  const p = DB[id];
+  if (!p) {
+    document.getElementById('sbc').innerHTML = `<div class="loading">Joueur ${id} inconnu<br><span style="font-size:8px">Il sera créé lors de la 1ère note</span></div>`;
+    return;
+  }
+  document.getElementById('sbt').textContent = id;
+  const reads = p.r || [];
+  const notes = p.n || [];
+  const upd = p.updated_by ? `<span style="color:var(--muted);font-size:7px">modifié par ${p.updated_by}</span>` : '';
+
+  document.getElementById('sbc').innerHTML = `
+    <div class="ph">
+      <div class="av">${(p.p || id).substring(0, 2).toUpperCase()}</div>
+      <div style="flex:1;min-width:0">
+        <div class="pid">${id}</div>
+        ${p.p ? `<div class="pps">${p.p}</div>` : ''}
+        ${upd}
+        <div class="ptg">
+          ${(p.t || []).map(t => `<span class="tg ${t.toLowerCase()}">${t}</span>`).join('')}
+          <span class="tg" style="background:rgba(52,152,219,0.1);color:#3498db;border-color:rgba(52,152,219,0.2)">${p.src || 'KK'}</span>
+        </div>
+      </div>
+    </div>
+    <div class="srow">
+      <div class="scd"><div class="scl">AGGRESSION</div><div class="scv a">${p.a ? 'A' + p.a : '—'}</div></div>
+      <div class="scd"><div class="scl">CALL STATION</div><div class="scv c">${p.c ? 'C' + p.c : '—'}</div></div>
+    </div>
+    <div class="sec">SIZING</div>
+    <div class="g2">
+      <div class="gi"><div class="gl">PRÉFLOP</div><div class="gv">${(p.sz && p.sz.pre) || '?'}</div></div>
+      <div class="gi"><div class="gl">DB SIZE</div><div class="gv">${(p.sz && p.sz.db) || '?'}</div></div>
+      <div class="gi"><div class="gl">BLUFF</div><div class="gv">${(p.sz && p.sz.bl) || '?'}</div></div>
+      <div class="gi"><div class="gl">VALUE</div><div class="gv">${(p.sz && p.sz.val) || '?'}</div></div>
+    </div>
+    <div class="sec">READS (${reads.length})</div>
+    ${reads.map((r, i) => {
+      const txt = typeof r === 'string' ? r : r.t || '';
+      const conf = typeof r === 'object' ? r.conf || 0 : 0;
+      return `<div class="rr"><div class="rd ${conf >= 4 ? 'hi' : conf >= 2 ? '' : 'lo'}"></div><div class="rt">${txt}</div><div class="rc">${starsHTML(conf, id, i, 'read')}</div></div>`;
+    }).join('')}
+    ${notes.length ? `<div class="sec">NOTES BRUTES (${notes.length})</div>` +
+      notes.map(n => `<div class="rr"><div class="rd gr"></div><div class="rt" style="color:#2ecc71">${n.t}<span style="color:var(--muted);font-size:7px;margin-left:4px">— ${n.by || ''} ${n.ts || ''}</span></div></div>`).join('') : ''}
+    <div class="sec">NOTE IN-GAME</div>
+    <textarea class="ntx" id="ntx-${id}" placeholder="ex: OR 3,9 UTG AKo / DB ½ TPTK sur A84..."></textarea>
+    <div class="nf">
+      <span class="nl">CONF</span>
+      <div class="cs2" id="cs-${id}">${[1,2,3,4,5].map(n => `<span class="cst" onclick="setNC('${id}',${n})">★</span>`).join('')}</div>
+      <button class="sbtn" onclick="saveNote('${id}')">SAUVER →</button>
+    </div>
+    <div class="sec" style="margin-top:8px">MODIFIER</div>
+    <div class="g2" style="margin-top:4px">
+      <div class="gi"><div class="gl">A (aggr)</div>
+        <input style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#e74c3c;font-size:11px;padding:3px;border-radius:3px;font-family:'Courier New',monospace"
+          type="number" min="0" max="5" value="${p.a}" onchange="updScore('${id}','a',this.value)">
+      </div>
+      <div class="gi"><div class="gl">C (call)</div>
+        <input style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:#3498db;font-size:11px;padding:3px;border-radius:3px;font-family:'Courier New',monospace"
+          type="number" min="0" max="5" value="${p.c}" onchange="updScore('${id}','c',this.value)">
+      </div>
+    </div>
+    <div class="gi" style="margin-top:4px">
+      <div class="gl">PSEUDO</div>
+      <input style="width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--gd);color:var(--gold);font-size:11px;padding:3px;border-radius:3px;font-family:'Courier New',monospace"
+        value="${p.p || ''}" onchange="updPseudo('${id}',this.value)" placeholder="pseudo...">
+    </div>
+  `;
+}
+
+async function updScore(id, field, val) {
+  if (!DB[id]) return;
+  DB[id][field] = parseInt(val) || 0;
+  await api('PUT', '/players/' + id, DB[id]);
+  renderTable();
+}
+
+async function updPseudo(id, val) {
+  if (!DB[id]) return;
+  DB[id].p = val;
+  await api('PUT', '/players/' + id, DB[id]);
+  renderTable();
+}
+
+function setNC(id, v) {
+  noteConf[id] = v;
+  document.querySelectorAll(`#cs-${id} .cst`).forEach((s, i) => s.classList.toggle('on', i < v));
+}
+
+async function saveNote(id) {
+  const tx = document.getElementById('ntx-' + id);
+  if (!tx) return;
+  const txt = tx.value.trim(); if (!txt) return;
+  const conf = noteConf[id] || 1;
+
+  // Save note to player
+  await api('POST', '/players/' + id + '/note', { text: txt, conf });
+  // Add to review queue
+  await api('POST', '/reviews', { player_id: id, note: txt, conf });
+
+  tx.value = ''; noteConf[id] = 0;
+  await refreshDB();
+  await loadReviews();
+  openPlayer(id);
+  showToast();
+}
+
+function showToast() {
+  const t = document.getElementById('tst');
+  t.style.opacity = '1';
+  setTimeout(() => t.style.opacity = '0', 1400);
+}
+
+async function doAssign() {
+  const id = document.getElementById('ain').value.trim();
+  if (!id || selSeat === null) return;
+  seats[selSeat] = id;
+  localStorage.setItem('phud_seats', JSON.stringify(seats));
+
+  if (!DB[id]) {
+    const newP = { p:'', a:0, c:0, t:['INCONNU'], r:[], n:[], sz:{pre:'?',db:'?',bl:'?',val:'?',cs:'?'}, src:'KK' };
+    await api('PUT', '/players/' + id, newP);
+    DB[id] = newP;
+  }
+  document.getElementById('ain').value = '';
+  renderTable();
+  openPlayer(id);
+}
+
+function clearSeat() {
+  if (selSeat === null) return;
+  seats[selSeat] = null;
+  localStorage.setItem('phud_seats', JSON.stringify(seats));
+  renderTable();
+  document.getElementById('sbc').innerHTML = `<div class="loading">Clique sur un siège</div>`;
+}
+
+function closeSB() {
+  selSeat = null; renderTable();
+  document.getElementById('sbc').innerHTML = `<div class="loading">Clique sur un siège</div>`;
+}
+
+// ── Review view ───────────────────────────────────────────────────────────────
+async function renderReview() {
+  await loadReviews();
+  const el = document.getElementById('vr');
+  if (!reviews.length) {
+    el.innerHTML = `<div class="loading">Aucune note en attente de review</div>`;
+    return;
+  }
+  el.innerHTML = `<div style="font-size:9px;color:var(--gold);letter-spacing:2px;margin-bottom:12px">REVIEW POST-SESSION — ${reviews.length} note(s)</div>` +
+    reviews.map(rv => `
+      <div class="rvc">
+        <div class="rvh">
+          <div class="rvi">${rv.player_id}</div>
+          <div class="rvt">${rv.ts || ''}</div>
+          <div class="rvby">par ${rv.by || '?'}</div>
+        </div>
+        <div class="rvn">${rv.note}</div>
+        <div class="rva">
+          <div class="rvac">IA — ANALYSE</div>
+          <span id="ai-${rv.id}" style="color:var(--muted);font-style:italic">
+            <span class="spinner"></span>Analyse en cours...
+          </span>
+        </div>
+        <div class="rvbts">
+          <button class="rvb rok" onclick="confRev(${rv.id})">✓ Confirmer</button>
+          <button class="rvb red2" onclick="discRev(${rv.id})">✕ Ignorer</button>
+        </div>
+      </div>
+    `).join('');
+
+  // Trigger AI analysis for each review
+  for (const rv of reviews) {
+    analyzeNote(rv.id, rv.player_id, rv.note);
+  }
+}
+
+async function analyzeNote(reviewId, playerId, note) {
+  const el = document.getElementById('ai-' + reviewId);
+  if (!el) return;
+  try {
+    const r = await api('POST', '/analyze', { player_id: playerId, note });
+    if (r && r.analysis) el.innerHTML = r.analysis;
+    else el.innerHTML = 'Analyse indisponible.';
+  } catch (e) {
+    el.innerHTML = 'Erreur d\'analyse.';
+  }
+}
+
+async function confRev(id) {
+  await api('PATCH', '/reviews/' + id, { status: 'confirmed' });
+  await loadReviews();
+  renderReview();
+}
+
+async function discRev(id) {
+  await api('PATCH', '/reviews/' + id, { status: 'discarded' });
+  await loadReviews();
+  renderReview();
+}
+
+// ── DB view ────────────────────────────────────────────────────────────────────
+function toggleSrc(s) {
+  srcFilter[s] = !srcFilter[s];
+  document.getElementById('sf-' + s.toLowerCase()).classList.toggle('on', srcFilter[s]);
+  renderDB(document.getElementById('dq').value);
+}
+
+function renderDB(q) {
+  const ql = q.toLowerCase();
+  const keys = Object.keys(DB).filter(id => {
+    const p = DB[id];
+    if (!srcFilter[p.src || 'KK']) return false;
+    return id.includes(q) || (p.p || '').toLowerCase().includes(ql);
+  }).sort((a, b) => (DB[b].r.length + (DB[b].n||[]).length) - (DB[a].r.length + (DB[a].n||[]).length));
+
+  document.getElementById('dl').innerHTML = keys.map(id => {
+    const p = DB[id];
+    return `<div class="dr" onclick="dbOpen('${id}')">
+      <div class="di">${id}</div>
+      <div class="dps">${p.p || '—'}</div>
+      <div style="display:flex;gap:3px">${p.a ? `<span class="sc sca">A${p.a}</span>` : ''}${p.c ? `<span class="sc scc">C${p.c}</span>` : ''}</div>
+      <span class="dsrc ${p.src || 'KK'}">${p.src || 'KK'}</span>
+      <div class="dnc">${p.r.length} reads${(p.n||[]).length ? ` +${p.n.length}★` : ''}</div>
+    </div>`;
+  }).join('');
+}
+
+function dbOpen(id) { showV('table', 0); openPlayer(id); }
+
+// ── View switching ─────────────────────────────────────────────────────────────
+function showV(v, n) {
+  const views = { table: 'vt', review: 'vr', db: 'vd', settings: 'vs' };
+  Object.entries(views).forEach(([name, id]) => {
+    const el = document.getElementById(id);
+    el.style.display = name === v ? (name === 'table' ? 'flex' : 'block') : 'none';
+  });
+  document.getElementById('sdb').style.display = v === 'table' ? 'flex' : 'none';
+  document.querySelectorAll('.nb').forEach((b, i) => b.classList.toggle('active', i === n));
+  if (v === 'review') renderReview();
+  if (v === 'db') renderDB('');
+}
+
+// ── Init ────────────────────────────────────────────────────────────────────────
+if (TOKEN) {
+  startApp();
+} else {
+  document.getElementById('login-screen').style.display = 'flex';
+}
+</script>
+</body>
+</html>
